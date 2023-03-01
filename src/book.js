@@ -12,7 +12,7 @@ var Book = /** @class */ (function () {
         return this.haveRead ? "Read" : "Not read yet";
     };
     Book.prototype.updateReadStatus = function () {
-        this.haveRead != this.haveRead;
+        this.haveRead = !this.haveRead;
     };
     Book.prototype.info = function () {
         var readStatus = this.getReadStatus();

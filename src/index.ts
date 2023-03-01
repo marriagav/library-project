@@ -37,8 +37,25 @@ function getBookData(): Book {
   );
 }
 
+const toggleReadStatus = (e: Event, book: Book, read: HTMLButtonElement) => {
+  book.updateReadStatus();
+  if (book.haveRead) {
+    read.textContent = "Read";
+    read.classList.remove("not-read");
+    read.classList.add("read");
+  } else {
+    read.textContent = "Not read";
+    read.classList.add("not-read");
+    read.classList.remove("read");
+  }
+};
+
+const deleteBookCard = (e: Event, book: Book, card: HTMLDivElement) => {
+  library.removeBook(book);
+  card.remove();
+};
+
 function addBookCard(book: Book) {
-  // Todo this
   const card = document.createElement("div");
   card.classList.add("bookCard");
   const title = document.createElement("h2");
@@ -51,11 +68,18 @@ function addBookCard(book: Book) {
   pages.classList.add("pages");
   pages.textContent = `${book.numPages} pages`;
   const read = document.createElement("button");
-  read.classList.add("read");
-  read.textContent = "Read";
+  if (book.haveRead == true) {
+    read.classList.add("read");
+    read.textContent = "Read";
+  } else {
+    read.classList.add("not-read");
+    read.textContent = "Not read";
+  }
+  read.addEventListener("click", (e) => toggleReadStatus(e, book, read));
   const delBook = document.createElement("button");
   delBook.classList.add("delete");
   delBook.textContent = "Remove";
+  delBook.addEventListener("click", (e) => deleteBookCard(e, book, card));
   card.appendChild(title);
   card.appendChild(author);
   card.appendChild(pages);

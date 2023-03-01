@@ -23,7 +23,7 @@ class Book {
   }
 
   public updateReadStatus() {
-    this.haveRead != this.haveRead;
+    this.haveRead = !this.haveRead;
   }
 
   public info(): string {

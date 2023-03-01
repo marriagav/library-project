@@ -27,8 +27,24 @@ function getBookData() {
     var isRead = document.getElementById("checkbox-input");
     return new book_1.Book(title.value, author.value, parseInt(pages.value), isRead.checked);
 }
+var toggleReadStatus = function (e, book, read) {
+    book.updateReadStatus();
+    if (book.haveRead) {
+        read.textContent = "Read";
+        read.classList.remove("not-read");
+        read.classList.add("read");
+    }
+    else {
+        read.textContent = "Not read";
+        read.classList.add("not-read");
+        read.classList.remove("read");
+    }
+};
+var deleteBookCard = function (e, book, card) {
+    library.removeBook(book);
+    card.remove();
+};
 function addBookCard(book) {
-    // Todo this
     var card = document.createElement("div");
     card.classList.add("bookCard");
     var title = document.createElement("h2");
@@ -41,11 +57,19 @@ function addBookCard(book) {
     pages.classList.add("pages");
     pages.textContent = "".concat(book.numPages, " pages");
     var read = document.createElement("button");
-    read.classList.add("read");
-    read.textContent = "Read";
+    if (book.haveRead == true) {
+        read.classList.add("read");
+        read.textContent = "Read";
+    }
+    else {
+        read.classList.add("not-read");
+        read.textContent = "Not read";
+    }
+    read.addEventListener("click", function (e) { return toggleReadStatus(e, book, read); });
     var delBook = document.createElement("button");
     delBook.classList.add("delete");
     delBook.textContent = "Remove";
+    delBook.addEventListener("click", function (e) { return deleteBookCard(e, book, card); });
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(pages);
